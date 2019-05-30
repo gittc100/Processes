@@ -8,7 +8,27 @@
 
 int main(void)
 {
-    // Your code here
+    // access a variable x
+    int *x = (int*) 100;
+    int y = 100;
+
+    printf("hello world (pid: %d)\n", (int) getpid());
+    int rc = fork();
+    // ------------------------------------------------ child process starts executing here
+    if (rc < 0) {    // fork failed; exit
+        fprintf(stderr, "fork failed\n");
+        exit(1);
+    } else if (rc == 0) {    // child process satisfies this branch
+        printf("hello, child here (pid: %d) \n", (int) getpid());
+        *x++;
+        y++;
+        printf("child modification to *x: %d, y: %d\n", x, y);
+    } else {
+        printf("hello, parent here (pid: %d) of child %d\n", (int) getpid(), rc);
+        *x++;
+        y++;
+        printf("parent modification to *x: %d, y: %d\n", x, y);
+    }
 
     return 0;
 }
